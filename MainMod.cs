@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace AmongUsMenu
 {
-    [BepInPlugin("com.parsast.amongusmenu", "AmongUsMenu", "1.0.0")]
+    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.0.0-dev.1")]
     [BepInProcess("Among Us.exe")]
     public class MainMod : BasePlugin
     {
