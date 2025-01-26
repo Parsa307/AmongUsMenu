@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Reference Include="0Harmony">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\core\0Harmony.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Assembly-CSharp">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\Assembly-CSharp.dll</HintPath>
+	  </Reference>
+	  <Reference Include="BepInEx.Core">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\core\BepInEx.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="BepInEx.Unity.IL2CPP">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\core\BepInEx.Unity.IL2CPP.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Il2CppInterop.Runtime">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\core\Il2CppInterop.Runtime.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Il2Cppmscorlib">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\Il2Cppmscorlib.dll</HintPath>
+	  </Reference>
+	  <Reference Include="MonoMod.Utils">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\core\MonoMod.Utils.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\UnityEngine.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.CoreModule">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\UnityEngine.CoreModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.InputLegacyModule">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\UnityEngine.InputLegacyModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.InputModule">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\UnityEngine.InputModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.TextRenderingModule">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\UnityEngine.TextRenderingModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UI">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\UnityEngine.UI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UIModule">
+	    <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Among Us\BepInEx\interop\UnityEngine.UIModule.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+</Project>
