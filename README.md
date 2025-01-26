@@ -37,6 +37,7 @@ Get it here: [BepInEx Bleeding Edge Builds](https://builds.bepinex.dev/projects/
 ## **Acknowledgments**
 Among Us Menu was made possible thanks to:
 - [BepInEx Framework](https://github.com/BepInEx/BepInEx)
+- [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)
 - [Il2CppDumper](https://github.com/Perfare/Il2CppDumper)
 - [Open Sans Font](https://fonts.google.com/specimen/Open+Sans)
 
