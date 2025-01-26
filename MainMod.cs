@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace AmongUsMenu
 {
-    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.0.0-dev.1")]
+    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.0.0-dev.2")]
     [BepInProcess("Among Us.exe")]
     public class MainMod : BasePlugin
     {
@@ -139,14 +139,21 @@ namespace AmongUsMenu
         [HarmonyPatch(typeof(PlayerPurchasesData), "GetPurchase")]
         public class GetPurchasePatch
         {
-            public static bool Prefix(ref bool __result)
+            public static void Postfix(ref bool __result)
             {
                 if (configData.UnlockAllCosmetics)
                 {
                     __result = true;
-                    return false;
                 }
-                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.AmBanned), MethodType.Getter)]
+        public static class AmBannedPatch
+        {
+            public static void Postfix(out bool __result)
+            {
+                __result = false;
             }
         }
 
