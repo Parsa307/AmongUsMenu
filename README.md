@@ -3,7 +3,7 @@
 ![Preview of Among Us Menu](AmongUsMenu.png)
 
 ## **Launch the Menu**
-Press **F7** to open the mod menu. Ensure you're already in the game for the menu to work properly.
+Press `F7` to open the mod menu. Ensure you're already in the game for the menu to work properly.
 
 ---
 
