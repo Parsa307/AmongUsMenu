@@ -1,7 +1,3 @@
-Here's the updated version with your addition:
-
----
-
 # **Yet Another Mod Menu for Among Us**
 
 ![Preview of Among Us Menu](AmongUsMenu.png)
