@@ -1,4 +1,3 @@
-using System;
 using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
@@ -7,7 +6,7 @@ using UnityEngine.UI;
 
 namespace AmongUsMenu
 {
-    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.0.0-dev.2")]
+    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.0.0-dev.3")]
     [BepInProcess("Among Us.exe")]
     public class MainMod : BasePlugin
     {
@@ -65,7 +64,8 @@ namespace AmongUsMenu
             panelRect.pivot = new Vector2(0.5f, 0.5f);
             panelRect.anchoredPosition = Vector2.zero;
 
-            AddButton(panel.transform, "Unlock All Cosmetics", new Vector2(0, 50), ToggleUnlockAllCosmetics);
+            AddButton(panel.transform, "Unlock All Cosmetics", new Vector2(0, 100), ToggleUnlockAllCosmetics);
+            AddButton(panel.transform, "Anti-Ban", new Vector2(0, 30), ToggleAntiBan);
             AddButton(panel.transform, "Close Menu", new Vector2(0, -50), () => menu?.SetActive(false));
 
             menu.SetActive(false);
@@ -132,8 +132,15 @@ namespace AmongUsMenu
         private static void ToggleUnlockAllCosmetics()
         {
             configData.UnlockAllCosmetics = !configData.UnlockAllCosmetics;
-            ConfigLoader.SaveSettings(configData.UnlockAllCosmetics);
+            ConfigLoader.SaveSettings(configData.UnlockAllCosmetics, configData.AntiBan);
             Logger.LogInfo($"Unlock All Cosmetics: {(configData.UnlockAllCosmetics ? "Activated" : "Deactivated")}");
+        }
+
+        private static void ToggleAntiBan()
+        {
+            configData.AntiBan = !configData.AntiBan;
+            ConfigLoader.SaveSettings(configData.UnlockAllCosmetics, configData.AntiBan);
+            Logger.LogInfo($"Anti-Ban: {(configData.AntiBan ? "Activated" : "Deactivated")}");
         }
 
         [HarmonyPatch(typeof(PlayerPurchasesData), "GetPurchase")]
@@ -151,9 +158,12 @@ namespace AmongUsMenu
         [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.AmBanned), MethodType.Getter)]
         public static class AmBannedPatch
         {
-            public static void Postfix(out bool __result)
+            public static void Postfix(ref bool __result)
             {
-                __result = false;
+                if (configData.AntiBan)
+                {
+                    __result = false;
+                }
             }
         }
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace AmongUsMenu
+﻿namespace AmongUsMenu
 {
     public static class ConfigLoader
     {
@@ -11,11 +8,13 @@ namespace AmongUsMenu
         /// Save settings to the configuration file.
         /// </summary>
         /// <param name="unlockAllCosmetics">Whether to unlock all cosmetics.</param>
-        public static void SaveSettings(bool unlockAllCosmetics)
+        /// <param name="antiBan">Whether to enable antiban.</param>
+        public static void SaveSettings(bool unlockAllCosmetics, bool antiBan)
         {
             var lines = new[]
             {
-                $"UnlockAllCosmetics={unlockAllCosmetics}"
+                $"UnlockAllCosmetics={unlockAllCosmetics}",
+                $"AntiBan={antiBan}"
             };
 
             try
@@ -39,7 +38,7 @@ namespace AmongUsMenu
         /// <summary>
         /// Load settings from the configuration file.
         /// </summary>
-        /// <returns>Configuration data with values for UnlockAllCosmetics.</returns>
+        /// <returns>Configuration data with values for UnlockAllCosmetics and AntiBan.</returns>
         public static ConfigData LoadSettings()
         {
             var configData = new ConfigData();
@@ -49,7 +48,7 @@ namespace AmongUsMenu
                 if (!File.Exists(ConfigPath))
                 {
                     MainMod.Logger.LogInfo("Config file not found. Creating default config.");
-                    SaveSettings(false);
+                    SaveSettings(false, false);
                     return configData;
                 }
 
@@ -63,6 +62,10 @@ namespace AmongUsMenu
                             case "UnlockAllCosmetics":
                                 if (bool.TryParse(parts[1], out var cosmetics))
                                     configData.UnlockAllCosmetics = cosmetics;
+                                break;
+                            case "AntiBan":
+                                if (bool.TryParse(parts[1], out var ban))
+                                    configData.AntiBan = ban;
                                 break;
                         }
                     }
@@ -85,5 +88,6 @@ namespace AmongUsMenu
     public class ConfigData
     {
         public bool UnlockAllCosmetics { get; set; } = false;
+        public bool AntiBan { get; set; } = false;
     }
 }
