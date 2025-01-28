@@ -22,7 +22,7 @@ Press `F7` to open the mod menu. Ensure you're already in the game for the menu 
    Copy `AmongUsMenu.dll` to the `BepInEx\plugins` folder.
 
 4. **Optional but Recommended**  
-   Install the [Open Sans font](https://fonts.google.com/specimen/Open+Sans) for a cleaner and more polished UI experience.
+   Install the [Inter font](https://github.com/rsms/inter/releases/latest) for a cleaner and more polished UI experience.
 
 ## **FAQ: Frequently Asked Questions**
 
