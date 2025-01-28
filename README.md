@@ -9,8 +9,6 @@
 ## **Launch the Menu**
 Press `F7` to open the mod menu. Ensure you're already in the game for the menu to work properly.
 
----
-
 ## **Setup: How to Install Among Us Menu**
 
 1. **Download BepInEx Bleeding Edge**
@@ -25,8 +23,6 @@ Press `F7` to open the mod menu. Ensure you're already in the game for the menu 
 4. **Optional but Recommended**  
    Install the [Open Sans font](https://fonts.google.com/specimen/Open+Sans) for a cleaner and more polished UI experience.
 
----
-
 ## **FAQ: Frequently Asked Questions**
 
 **Q: Why not use MelonLoader instead of BepInEx?**
@@ -35,8 +31,6 @@ Press `F7` to open the mod menu. Ensure you're already in the game for the menu 
 **Q: Why use the Bleeding Edge version of BepInEx instead of the Stable version?**
 **A:** The Stable version doesn't work with Among Us. The Bleeding Edge version is required to run BepInEx for this game.
 Get it here: [BepInEx Bleeding Edge Builds](https://builds.bepinex.dev/projects/bepinex_be).
-
----
 
 ## **Acknowledgments**
 Among Us Menu was made possible thanks to:
