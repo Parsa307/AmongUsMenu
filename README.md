@@ -2,6 +2,10 @@
 
 ![Preview of Among Us Menu](AmongUsMenu.png)
 
+[![GitHub contributors](https://img.shields.io/github/contributors/Parsa307/AmongUsMenu)](https://github.com/Parsa307/AmongUsMenu/graphs/contributors)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Parsa307/AmongUsMenu)](https://github.com/Parsa307/AmongUsMenu/commits/)
+[![Repository Size](https://img.shields.io/github/repo-size/Parsa307/AmongUsMenu)](https://github.com/Parsa307/AmongUsMenu)
+
 ## **Launch the Menu**
 Press `F7` to open the mod menu. Ensure you're already in the game for the menu to work properly.
 
@@ -40,4 +44,3 @@ Among Us Menu was made possible thanks to:
 - [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)
 - [Il2CppDumper](https://github.com/Perfare/Il2CppDumper)
 - [Open Sans Font](https://fonts.google.com/specimen/Open+Sans)
-
