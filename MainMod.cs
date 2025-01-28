@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace AmongUsMenu
 {
-    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.0.0-dev.3")]
+    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.0.0-dev.4")]
     [BepInProcess("Among Us.exe")]
     public class MainMod : BasePlugin
     {
@@ -89,7 +89,7 @@ namespace AmongUsMenu
             textObject.transform.SetParent(button.transform);
             var textComponent = textObject.AddComponent<Text>();
             textComponent.text = buttonText;
-            textComponent.font = GetFont("Open Sans Bold");
+            textComponent.font = GetFont("Inter Bold");
             textComponent.fontSize = 20;
             textComponent.color = Color.white;
             textComponent.alignment = TextAnchor.MiddleCenter;
