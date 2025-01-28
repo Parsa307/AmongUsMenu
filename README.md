@@ -38,4 +38,4 @@ Among Us Menu was made possible thanks to:
 - [BepInEx Framework](https://github.com/BepInEx/BepInEx)
 - [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles)
 - [Il2CppDumper](https://github.com/Perfare/Il2CppDumper)
-- [Open Sans Font](https://fonts.google.com/specimen/Open+Sans)
+- [Inter Font](https://github.com/rsms/inter)
