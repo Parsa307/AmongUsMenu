@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace AmongUsMenu
 {
-    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.1.0")]
+    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.1.1")]
     [BepInProcess("Among Us.exe")]
     public class MainMod : BasePlugin
     {
@@ -41,7 +41,7 @@ namespace AmongUsMenu
             var panel = new GameObject("Panel");
             panel.transform.SetParent(menu.transform);
             var panelImage = panel.AddComponent<Image>();
-            panelImage.color = new Color(0, 0, 0, 0.85f);
+            panelImage.color = new Color(0, 0, 0, 0f);
             var panelRect = panel.GetComponent<RectTransform>();
             panelRect.sizeDelta = new Vector2(400, 400);
             panelRect.anchorMin = new Vector2(0.5f, 0.5f);
