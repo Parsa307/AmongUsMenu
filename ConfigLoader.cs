@@ -9,6 +9,7 @@
             var lines = new[]
             {
                 $"UnlockAllCosmetics={config.UnlockAllCosmetics}",
+                $"NoClip={config.NoClip}",
                 $"AntiBan={config.AntiBan}",
                 $"CopyChatMessages={config.CopyChatMessages}"
             };
@@ -39,7 +40,6 @@
             {
                 if (!File.Exists(ConfigPath))
                 {
-                    MainMod.Logger.LogInfo("Config file not found. Creating default config.");
                     SaveSettings(configData);
                     return configData;
                 }
@@ -53,6 +53,9 @@
                         {
                             case "UnlockAllCosmetics":
                                 configData.UnlockAllCosmetics = bool.TryParse(parts[1], out var cosmetics) && cosmetics;
+                                break;
+                            case "NoClip":
+                                configData.NoClip = bool.TryParse(parts[1], out var noclip) && noclip;
                                 break;
                             case "AntiBan":
                                 configData.AntiBan = bool.TryParse(parts[1], out var ban) && ban;
@@ -78,6 +81,7 @@
     public class ConfigData
     {
         public bool UnlockAllCosmetics { get; set; } = false;
+        public bool NoClip { get; set; } = false;
         public bool AntiBan { get; set; } = false;
         public bool CopyChatMessages { get; set; } = false;
     }

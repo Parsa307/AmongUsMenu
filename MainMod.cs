@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 namespace AmongUsMenu
 {
-    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.0.0-dev.6")]
+    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.0.0-dev.7")]
     [BepInProcess("Among Us.exe")]
     public class MainMod : BasePlugin
     {
         private static GameObject? menu;
         private static bool menuVisible = false;
-        private static ConfigData configData = new ConfigData();
+        public static ConfigData configData = new ConfigData();
 
         public static readonly BepInEx.Logging.ManualLogSource Logger = BepInEx.Logging.Logger.CreateLogSource("AmongUsMenu");
 
@@ -26,15 +26,7 @@ namespace AmongUsMenu
 
             // Initialize Harmony
             var harmony = new Harmony("com.parsast.amongusmenu");
-            try
-            {
-                harmony.PatchAll();
-                Logger.LogInfo("Harmony patches applied successfully.");
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError($"Failed to apply Harmony patches: {ex}");
-            }
+            harmony.PatchAll();
         }
 
         private static void CreateMenu()
@@ -51,16 +43,17 @@ namespace AmongUsMenu
             var panelImage = panel.AddComponent<Image>();
             panelImage.color = new Color(0, 0, 0, 0.85f);
             var panelRect = panel.GetComponent<RectTransform>();
-            panelRect.sizeDelta = new Vector2(400, 350);
+            panelRect.sizeDelta = new Vector2(400, 400);
             panelRect.anchorMin = new Vector2(0.5f, 0.5f);
             panelRect.anchorMax = new Vector2(0.5f, 0.5f);
             panelRect.pivot = new Vector2(0.5f, 0.5f);
             panelRect.anchoredPosition = Vector2.zero;
 
             AddButton(panel.transform, "Unlock All Cosmetics", new Vector2(0, 100), ToggleUnlockAllCosmetics);
-            AddButton(panel.transform, "Anti-Ban", new Vector2(0, 30), ToggleAntiBan);
-            AddButton(panel.transform, "Copy Chat Messages", new Vector2(0, -30), ToggleCopyChatMessages);
-            AddButton(panel.transform, "Close Menu", new Vector2(0, -100), () => menu?.SetActive(false));
+            AddButton(panel.transform, "No-Clip", new Vector2(0, 50), ToggleNoClip);
+            AddButton(panel.transform, "Anti-Ban", new Vector2(0, 0), ToggleAntiBan);
+            AddButton(panel.transform, "Copy Chat Messages", new Vector2(0, -50), ToggleCopyChatMessages);
+            AddButton(panel.transform, "Close Menu", new Vector2(0, -110), () => menu?.SetActive(false));
 
             menu.SetActive(false);
         }
@@ -130,6 +123,13 @@ namespace AmongUsMenu
             Logger.LogInfo($"Unlock All Cosmetics: {(configData.UnlockAllCosmetics ? "Activated" : "Deactivated")}");
         }
 
+        private static void ToggleNoClip()
+        {
+            configData.NoClip = !configData.NoClip;
+            ConfigLoader.SaveSettings(configData);
+            Logger.LogInfo($"No-Clip: {(configData.NoClip ? "Activated" : "Deactivated")}");
+        }
+
         private static void ToggleAntiBan()
         {
             configData.AntiBan = !configData.AntiBan;
@@ -156,12 +156,22 @@ namespace AmongUsMenu
             }
         }
 
+        [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.LateUpdate))]
+        public static class PlayerPhysicsLateUpdate
+        {
+            public static void Postfix(PlayerPhysics __instance)
+            {
+                PlayerControl.LocalPlayer.Collider.enabled = !(configData.NoClip || PlayerControl.LocalPlayer.onLadder);
+            }
+        }
+    }
+
         [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.AmBanned), MethodType.Getter)]
         public static class AmBannedPatch
         {
             public static void Postfix(ref bool __result)
             {
-                if (configData.AntiBan)
+                if (MainMod.configData.AntiBan)
                 {
                     __result = false;
                 }
@@ -186,7 +196,7 @@ namespace AmongUsMenu
         {
             public static void Postfix(TextBoxTMP __instance)
             {
-                if (configData.CopyChatMessages && __instance.hasFocus)
+                if (MainMod.configData.CopyChatMessages && __instance.hasFocus)
                 {
                     if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.C))
                     {
@@ -196,4 +206,3 @@ namespace AmongUsMenu
             }
         }
     }
-}
