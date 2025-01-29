@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace AmongUsMenu
 {
-    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.1.1")]
+    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.1.2")]
     [BepInProcess("Among Us.exe")]
     public class MainMod : BasePlugin
     {
@@ -161,12 +161,14 @@ namespace AmongUsMenu
         {
             public static void Postfix(PlayerPhysics __instance)
             {
-                PlayerControl.LocalPlayer.Collider.enabled = !(configData.NoClip || PlayerControl.LocalPlayer.onLadder);
+                if (PlayerControl.LocalPlayer?.Collider == null) return; // Prevents errors
+ 
+                PlayerControl.LocalPlayer.Collider.enabled = !configData.NoClip;
             }
         }
     }
 
-        [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.AmBanned), MethodType.Getter)]
+    [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.AmBanned), MethodType.Getter)]
         public static class AmBannedPatch
         {
             public static void Postfix(ref bool __result)
@@ -206,3 +208,4 @@ namespace AmongUsMenu
             }
         }
     }
+
