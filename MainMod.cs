@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace AmongUsMenu
 {
-    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.0.0-dev.5")]
+    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.0.0-dev.6")]
     [BepInProcess("Among Us.exe")]
     public class MainMod : BasePlugin
     {
@@ -22,14 +22,7 @@ namespace AmongUsMenu
 
             // Load config settings
             var loadedConfig = ConfigLoader.LoadSettings();
-            if (loadedConfig != null)
-            {
-                configData = loadedConfig;
-            }
-            else
-            {
-                Logger.LogError("Failed to load configuration settings. Using default values.");
-            }
+            configData = loadedConfig ?? new ConfigData();
 
             // Initialize Harmony
             var harmony = new Harmony("com.parsast.amongusmenu");
@@ -58,7 +51,7 @@ namespace AmongUsMenu
             var panelImage = panel.AddComponent<Image>();
             panelImage.color = new Color(0, 0, 0, 0.85f);
             var panelRect = panel.GetComponent<RectTransform>();
-            panelRect.sizeDelta = new Vector2(400, 300);
+            panelRect.sizeDelta = new Vector2(400, 350);
             panelRect.anchorMin = new Vector2(0.5f, 0.5f);
             panelRect.anchorMax = new Vector2(0.5f, 0.5f);
             panelRect.pivot = new Vector2(0.5f, 0.5f);
@@ -66,7 +59,8 @@ namespace AmongUsMenu
 
             AddButton(panel.transform, "Unlock All Cosmetics", new Vector2(0, 100), ToggleUnlockAllCosmetics);
             AddButton(panel.transform, "Anti-Ban", new Vector2(0, 30), ToggleAntiBan);
-            AddButton(panel.transform, "Close Menu", new Vector2(0, -50), () => menu?.SetActive(false));
+            AddButton(panel.transform, "Copy Chat Messages", new Vector2(0, -30), ToggleCopyChatMessages);
+            AddButton(panel.transform, "Close Menu", new Vector2(0, -100), () => menu?.SetActive(false));
 
             menu.SetActive(false);
         }
@@ -132,15 +126,22 @@ namespace AmongUsMenu
         private static void ToggleUnlockAllCosmetics()
         {
             configData.UnlockAllCosmetics = !configData.UnlockAllCosmetics;
-            ConfigLoader.SaveSettings(configData.UnlockAllCosmetics, configData.AntiBan);
+            ConfigLoader.SaveSettings(configData);
             Logger.LogInfo($"Unlock All Cosmetics: {(configData.UnlockAllCosmetics ? "Activated" : "Deactivated")}");
         }
 
         private static void ToggleAntiBan()
         {
             configData.AntiBan = !configData.AntiBan;
-            ConfigLoader.SaveSettings(configData.UnlockAllCosmetics, configData.AntiBan);
+            ConfigLoader.SaveSettings(configData);
             Logger.LogInfo($"Anti-Ban: {(configData.AntiBan ? "Activated" : "Deactivated")}");
+        }
+
+        private static void ToggleCopyChatMessages()
+        {
+            configData.CopyChatMessages = !configData.CopyChatMessages;
+            ConfigLoader.SaveSettings(configData);
+            Logger.LogInfo($"Copy Chat Messages: {(configData.CopyChatMessages ? "Activated" : "Deactivated")}");
         }
 
         [HarmonyPatch(typeof(PlayerPurchasesData), nameof(PlayerPurchasesData.GetPurchase))]
@@ -176,6 +177,21 @@ namespace AmongUsMenu
                 {
                     MainMod.Logger.LogInfo("Menu showed!");
                     MainMod.ToggleMenu();
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.Update))]
+        public static class TextBoxTMPUpdate
+        {
+            public static void Postfix(TextBoxTMP __instance)
+            {
+                if (configData.CopyChatMessages && __instance.hasFocus)
+                {
+                    if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.C))
+                    {
+                        ClipboardHelper.PutClipboardString(__instance.text);
+                    }
                 }
             }
         }

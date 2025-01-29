@@ -4,17 +4,13 @@
     {
         private static readonly string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "AmongUsMenu", "config.txt");
 
-        /// <summary>
-        /// Save settings to the configuration file.
-        /// </summary>
-        /// <param name="unlockAllCosmetics">Whether to unlock all cosmetics.</param>
-        /// <param name="antiBan">Whether to enable antiban.</param>
-        public static void SaveSettings(bool unlockAllCosmetics, bool antiBan)
+        public static void SaveSettings(ConfigData config)
         {
             var lines = new[]
             {
-                $"UnlockAllCosmetics={unlockAllCosmetics}",
-                $"AntiBan={antiBan}"
+                $"UnlockAllCosmetics={config.UnlockAllCosmetics}",
+                $"AntiBan={config.AntiBan}",
+                $"CopyChatMessages={config.CopyChatMessages}"
             };
 
             try
@@ -35,10 +31,6 @@
             }
         }
 
-        /// <summary>
-        /// Load settings from the configuration file.
-        /// </summary>
-        /// <returns>Configuration data with values for UnlockAllCosmetics and AntiBan.</returns>
         public static ConfigData LoadSettings()
         {
             var configData = new ConfigData();
@@ -48,7 +40,7 @@
                 if (!File.Exists(ConfigPath))
                 {
                     MainMod.Logger.LogInfo("Config file not found. Creating default config.");
-                    SaveSettings(false, false);
+                    SaveSettings(configData);
                     return configData;
                 }
 
@@ -60,12 +52,13 @@
                         switch (parts[0])
                         {
                             case "UnlockAllCosmetics":
-                                if (bool.TryParse(parts[1], out var cosmetics))
-                                    configData.UnlockAllCosmetics = cosmetics;
+                                configData.UnlockAllCosmetics = bool.TryParse(parts[1], out var cosmetics) && cosmetics;
                                 break;
                             case "AntiBan":
-                                if (bool.TryParse(parts[1], out var ban))
-                                    configData.AntiBan = ban;
+                                configData.AntiBan = bool.TryParse(parts[1], out var ban) && ban;
+                                break;
+                            case "CopyChatMessages":
+                                configData.CopyChatMessages = bool.TryParse(parts[1], out var copy) && copy;
                                 break;
                         }
                     }
@@ -82,12 +75,10 @@
         }
     }
 
-    /// <summary>
-    /// Class representing the configuration data for the mod.
-    /// </summary>
     public class ConfigData
     {
         public bool UnlockAllCosmetics { get; set; } = false;
         public bool AntiBan { get; set; } = false;
+        public bool CopyChatMessages { get; set; } = false;
     }
 }
