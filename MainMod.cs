@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace AmongUsMenu
 {
-    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.0.0-dev.4")]
+    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.0.0-dev.5")]
     [BepInProcess("Among Us.exe")]
     public class MainMod : BasePlugin
     {
@@ -143,7 +143,7 @@ namespace AmongUsMenu
             Logger.LogInfo($"Anti-Ban: {(configData.AntiBan ? "Activated" : "Deactivated")}");
         }
 
-        [HarmonyPatch(typeof(PlayerPurchasesData), "GetPurchase")]
+        [HarmonyPatch(typeof(PlayerPurchasesData), nameof(PlayerPurchasesData.GetPurchase))]
         public class GetPurchasePatch
         {
             public static void Postfix(ref bool __result)
