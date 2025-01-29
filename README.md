@@ -5,6 +5,7 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/Parsa307/AmongUsMenu)](https://github.com/Parsa307/AmongUsMenu/graphs/contributors)
 [![GitHub last commit](https://img.shields.io/github/last-commit/Parsa307/AmongUsMenu)](https://github.com/Parsa307/AmongUsMenu/commits/)
 [![Total downloads](https://img.shields.io/github/downloads/Parsa307/AmongUsMenu/total)](https://github.com/Parsa307/AmongUsMenu/releases)
+[![Latest release](https://img.shields.io/github/v/release/Parsa307/AmongUsMenu)](https://github.com/Parsa307/AmongUsMenu/releases/latest)
 [![Repository Size](https://img.shields.io/github/repo-size/Parsa307/AmongUsMenu)](https://github.com/Parsa307/AmongUsMenu)
 
 ## **Launch the Menu**
