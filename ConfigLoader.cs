@@ -11,6 +11,7 @@
                 $"UnlockAllCosmetics={config.UnlockAllCosmetics}",
                 $"NoClip={config.NoClip}",
                 $"AntiBan={config.AntiBan}",
+                $"UseVents={config.UseVents}",
                 $"CopyChatMessages={config.CopyChatMessages}"
             };
 
@@ -60,6 +61,9 @@
                             case "AntiBan":
                                 configData.AntiBan = bool.TryParse(parts[1], out var ban) && ban;
                                 break;
+                            case "UseVents":
+                                configData.UseVents = bool.TryParse(parts[1], out var vents) && vents;
+                                break;
                             case "CopyChatMessages":
                                 configData.CopyChatMessages = bool.TryParse(parts[1], out var copy) && copy;
                                 break;
@@ -83,6 +87,7 @@
         public bool UnlockAllCosmetics { get; set; } = false;
         public bool NoClip { get; set; } = false;
         public bool AntiBan { get; set; } = false;
+        public bool UseVents { get; set; } = false;
         public bool CopyChatMessages { get; set; } = false;
     }
 }

@@ -1,3 +1,4 @@
+using AmongUsMenu;
 using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 
 namespace AmongUsMenu
 {
-    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.1.2")]
+    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.1.3")]
     [BepInProcess("Among Us.exe")]
     public class MainMod : BasePlugin
     {
@@ -52,8 +53,9 @@ namespace AmongUsMenu
             AddButton(panel.transform, "Unlock All Cosmetics", new Vector2(0, 100), ToggleUnlockAllCosmetics);
             AddButton(panel.transform, "No-Clip", new Vector2(0, 50), ToggleNoClip);
             AddButton(panel.transform, "Anti-Ban", new Vector2(0, 0), ToggleAntiBan);
-            AddButton(panel.transform, "Copy Chat Messages", new Vector2(0, -50), ToggleCopyChatMessages);
-            AddButton(panel.transform, "Close Menu", new Vector2(0, -110), () => menu?.SetActive(false));
+            AddButton(panel.transform, "Use Vents", new Vector2(0, -50), ToggleUseVents);
+            AddButton(panel.transform, "Copy Chat Messages", new Vector2(0, -100), ToggleCopyChatMessages);
+            AddButton(panel.transform, "Close Menu", new Vector2(0, -160), () => menu?.SetActive(false));
 
             menu.SetActive(false);
         }
@@ -137,6 +139,13 @@ namespace AmongUsMenu
             Logger.LogInfo($"Anti-Ban: {(configData.AntiBan ? "Activated" : "Deactivated")}");
         }
 
+        private static void ToggleUseVents()
+        {
+            configData.UseVents = !configData.UseVents;
+            ConfigLoader.SaveSettings(configData);
+            Logger.LogInfo($"Use Vents: {(configData.UseVents ? "Activated" : "Deactivated")}");
+        }
+
         private static void ToggleCopyChatMessages()
         {
             configData.CopyChatMessages = !configData.CopyChatMessages;
@@ -162,20 +171,62 @@ namespace AmongUsMenu
             public static void Postfix(PlayerPhysics __instance)
             {
                 if (PlayerControl.LocalPlayer?.Collider == null) return; // Prevents errors
- 
+
                 PlayerControl.LocalPlayer.Collider.enabled = !configData.NoClip;
             }
         }
     }
 
     [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.AmBanned), MethodType.Getter)]
-        public static class AmBannedPatch
+    public static class AmBannedPatch
+    {
+        public static void Postfix(ref bool __result)
         {
-            public static void Postfix(ref bool __result)
+            if (MainMod.configData.AntiBan)
             {
-                if (MainMod.configData.AntiBan)
+                __result = false;
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
+    public static class HudManagerUpdatePatch
+    {
+        public static void Postfix(HudManager __instance)
+        {
+            if (!PlayerControl.LocalPlayer.Data.Role.CanVent && !PlayerControl.LocalPlayer.Data.IsDead)
+            {
+                __instance.ImpostorVentButton.gameObject.SetActive(MainMod.configData.UseVents);
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]
+    public static class VentCanUse
+    {
+        public static void Postfix(Vent __instance, NetworkedPlayerInfo pc, ref bool canUse, ref bool couldUse, ref float __result)
+        {
+            if (MainMod.configData.UseVents && !PlayerControl.LocalPlayer.Data.Role.CanVent && !PlayerControl.LocalPlayer.Data.IsDead)
+            {
+                float num = Vector2.Distance(pc.Object.Collider.bounds.center, __instance.transform.position);
+
+                canUse = num <= __instance.UsableDistance && !PhysicsHelpers.AnythingBetween(pc.Object.Collider, pc.Object.Collider.bounds.center, __instance.transform.position, Constants.ShipOnlyMask, false);
+                couldUse = true;
+                __result = num;
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.Update))]
+    public static class TextBoxTMPUpdate
+    {
+        public static void Postfix(TextBoxTMP __instance)
+        {
+            if (MainMod.configData.CopyChatMessages && __instance.hasFocus)
+            {
+                if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.C))
                 {
-                    __result = false;
+                    ClipboardHelper.PutClipboardString(__instance.text);
                 }
             }
         }
@@ -192,20 +243,5 @@ namespace AmongUsMenu
                 }
             }
         }
-
-        [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.Update))]
-        public static class TextBoxTMPUpdate
-        {
-            public static void Postfix(TextBoxTMP __instance)
-            {
-                if (MainMod.configData.CopyChatMessages && __instance.hasFocus)
-                {
-                    if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.C))
-                    {
-                        ClipboardHelper.PutClipboardString(__instance.text);
-                    }
-                }
-            }
-        }
     }
-
+}
