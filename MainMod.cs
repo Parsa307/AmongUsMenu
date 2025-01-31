@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace AmongUsMenu
 {
-    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.1.3")]
+    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.1.4")]
     [BepInProcess("Among Us.exe")]
     public class MainMod : BasePlugin
     {
@@ -194,6 +194,8 @@ namespace AmongUsMenu
     {
         public static void Postfix(HudManager __instance)
         {
+            if (PlayerControl.LocalPlayer?.Data?.Role == null || __instance.ImpostorVentButton == null) return; // Prevents errors
+
             if (!PlayerControl.LocalPlayer.Data.Role.CanVent && !PlayerControl.LocalPlayer.Data.IsDead)
             {
                 __instance.ImpostorVentButton.gameObject.SetActive(MainMod.configData.UseVents);
