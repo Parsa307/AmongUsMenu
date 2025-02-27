@@ -2,12 +2,12 @@
 
 ![Preview of Among Us Menu](AmongUsMenu.png)
 
-[![GitHub contributors](https://img.shields.io/github/contributors/Parsa307/AmongUsMenu)](https://github.com/Parsa307/AmongUsMenu/graphs/contributors)
-[![GitHub last commit](https://img.shields.io/github/last-commit/Parsa307/AmongUsMenu)](https://github.com/Parsa307/AmongUsMenu/commits)
-[![GitHub last commit](https://img.shields.io/github/stars/Parsa307/AmongUsMenu)](https://github.com/Parsa307/AmongUsMenu/stargazers)
-[![Total downloads](https://img.shields.io/github/downloads/Parsa307/AmongUsMenu/total)](https://github.com/Parsa307/AmongUsMenu/releases)
-[![Latest release](https://img.shields.io/github/v/release/Parsa307/AmongUsMenu)](https://github.com/Parsa307/AmongUsMenu/releases/latest)
-[![Repository Size](https://img.shields.io/github/repo-size/Parsa307/AmongUsMenu)](https://github.com/Parsa307/AmongUsMenu)
+[![GitHub contributors](https://img.shields.io/github/contributors/Parsa307/AmongUsMenu?style=flat-square)](https://github.com/Parsa307/AmongUsMenu/graphs/contributors)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Parsa307/AmongUsMenu?style=flat-square)](https://github.com/Parsa307/AmongUsMenu/commits)
+[![GitHub last commit](https://img.shields.io/github/stars/Parsa307/AmongUsMenu?style=flat-square)](https://github.com/Parsa307/AmongUsMenu/stargazers)
+[![Total downloads](https://img.shields.io/github/downloads/Parsa307/AmongUsMenu/total?style=flat-square)](https://github.com/Parsa307/AmongUsMenu/releases)
+[![Latest release](https://img.shields.io/github/v/release/Parsa307/AmongUsMenu?style=flat-square)](https://github.com/Parsa307/AmongUsMenu/releases/latest)
+[![Repository Size](https://img.shields.io/github/repo-size/Parsa307/AmongUsMenu?style=flat-square)](https://github.com/Parsa307/AmongUsMenu)
 
 ## **Launch the Menu**
 Press `F7` to open the mod menu. Ensure you're already in the game for the menu to work properly.
