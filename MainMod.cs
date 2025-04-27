@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace AmongUsMenu
 {
-    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.1.5")]
+    [BepInPlugin("com.parsast.amongusmenu", "Among Us Menu", "v1.2.0")]
     [BepInProcess("Among Us.exe")]
     public class MainMod : BasePlugin
     {
@@ -178,8 +178,8 @@ namespace AmongUsMenu
         }
     }
 
-    [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.AmBanned), MethodType.Getter)]
-    public static class AmBannedPatch
+    [HarmonyPatch(typeof(AmongUs.Data.Player.PlayerBanData), nameof(AmongUs.Data.Player.PlayerBanData.IsBanned), MethodType.Getter)]
+    public static class IsBannedPatch
     {
         public static void Postfix(ref bool __result)
         {
