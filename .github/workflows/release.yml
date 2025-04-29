@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write  # Grants write access for content, including creating releases
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
@@ -44,7 +47,7 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          name: "Release ${VERSION}"
+          name: "${{ env.VERSION }}"  # Now using only the version number, no "Release" prefix
           tag_name: ${{ env.TAG_NAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
