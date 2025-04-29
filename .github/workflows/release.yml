@@ -28,12 +28,18 @@ jobs:
             exit 0
           fi
 
+      - name: Create git tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag $VERSION
+          git push origin $VERSION
+
       - name: Create release
-        id: create-release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ env.VERSION }}
-          release_name: ${{ env.VERSION }}
+          tag: ${{ env.VERSION }}
+          name: ${{ env.VERSION }}
           draft: false
           prerelease: ${{ contains(env.VERSION, '-dev') }}
