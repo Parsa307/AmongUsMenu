@@ -8,6 +8,7 @@ on:
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -32,20 +33,13 @@ jobs:
         env:
           VERSION: ${{ env.VERSION }}
 
-      - name: Create git tag
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git tag "$VERSION"
-          git push origin "$VERSION"
-        env:
-          VERSION: ${{ env.VERSION }}
+      - name: Generate tag name
+        run: echo "TAG_NAME=${{ env.VERSION }}" >> $GITHUB_ENV
 
       - name: Create release
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.VERSION }}
-          name: ${{ env.VERSION }}
-          draft: false
-          prerelease: ${{ contains(env.VERSION, '-dev') }}
+          name: "Release ${VERSION}"
+          tag_name: ${{ env.TAG_NAME }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
