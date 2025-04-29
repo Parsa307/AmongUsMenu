@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Extract version number
+        id: version
+        run: |
+          VERSION=$(grep "BepInPlugin" MainMod.cs | cut -d'"' -f4)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Compare version number
+        run: |
+          LATEST_VERSION=$(git tag -l | sort -V | tail -1)
+          if [ "$VERSION" != "$LATEST_VERSION" ]; then
+            echo "New version detected: $VERSION"
+          else
+            echo "No new version detected"
+            exit 0
+          fi
+
+      - name: Create release
+        id: create-release
+        uses: actions/create-release@v1
+        with:
+          token: ${{ github.token }}
+          tag_name: ${{ env.VERSION }}
+          release_name: ${{ env.VERSION }}
+          draft: false
+          prerelease: ${{ contains(env.VERSION, '-dev') }}
