@@ -1,4 +1,5 @@
 name: Release
+
 on:
   push:
     branches:
@@ -7,22 +8,26 @@ on:
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
+
       - name: Extract version number
         id: extract_version
         run: |
           VERSION=$(grep "BepInPlugin" MainMod.cs | cut -d'"' -f6)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-      
+
       - name: Compare version number
         run: |
           echo "Current version: $VERSION"
           LATEST_VERSION=$(git tag -l | sort -V | tail -1)
           echo "Latest tag: $LATEST_VERSION"
-          if [ "$VERSION" != "$LATEST_VERSION" ]; then
+          if [ -z "$LATEST_VERSION" ]; then
+            echo "No latest tag found"
+            echo "New version detected: $VERSION"
+          elif [ "$VERSION" != "$LATEST_VERSION" ]; then
             echo "New version detected: $VERSION"
           else
             echo "No new version detected"
@@ -30,10 +35,10 @@ jobs:
           fi
         env:
           VERSION: ${{ env.VERSION }}
-      
+
       - name: Generate tag name
         run: echo "TAG_NAME=${{ env.VERSION }}" >> $GITHUB_ENV
-      
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
