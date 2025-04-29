@@ -30,7 +30,7 @@ jobs:
 
       - name: Create release
         id: create-release
-        uses: actions/create-release@v1
+        uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: ${{ env.VERSION }}
